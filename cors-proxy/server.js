@@ -1,6 +1,7 @@
-//var http = require('http')
-import http from 'http';
+var http = require('http')
 
 http.createServer(function(request, response){
-    response.writeHead(200, {'Content-type': plain-text})
-})
+    response.writeHead(200, {'Content-type': 'text/plain'});
+    response.write('HALLO DOMMIE');
+    response.end();
+}).listen(7000);

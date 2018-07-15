@@ -1,0 +1,13 @@
+.flex-grid {
+    display: flex;
+    justify-content: center;
+    background-color: whitesmoke;
+  }
+  
+.col {
+    background-color: salmon;
+    width: 20%;
+    margin: 10px;
+    padding: 20px;
+    min-width: 100px;
+}

@@ -1,13 +1,24 @@
-// Listen on a specific host via the HOST environment variable
-var host = process.env.HOST || '0.0.0.0';
-// Listen on a specific port via the PORT environment variable
-var port = process.env.PORT || 7000;
+const express = require('express');
+const path = require('path');
+const app = express();
+const port = process.env.PORT || 5000;
 
-var cors_proxy = require('cors-anywhere');
-cors_proxy.createServer({
-    originWhitelist: [], // Allow all origins
-    requireHeader: ['origin', 'x-requested-with'],
-    removeHeaders: ['cookie', 'cookie2']
-}).listen(port, host, function() {
-    console.log('Running CORS Anywhere on ' + host + ':' + port);
+app.use(express.static(path.join(__dirname, 'client/build'), {etag: false})); 
+
+// use strict routing
+app.enable('strict routing');
+
+// API calls
+app.get('/api', (req, res) => {  
+    let wat = req.host
+    let wat2 = req.body
+    let wat3 = req.headers
+    let wat4 = req.rawHeaders
+    res.send(console.log('zien we dit yo?'));
 });
+
+// Handle React routing, return all requests to React app
+app.get('/waku', function(req, res) {  
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
+app.listen(port, () => console.log(`Listening on port ${port}`));

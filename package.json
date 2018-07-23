@@ -5,11 +5,16 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js",
+    "client": "cd client && npm start",
+    "dev": "concurrently --kill-others-on-fail \"npm start\" \"npm run-script client\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cors-anywhere": "^0.4.1"
+    "concurrently": "^3.6.0",
+    "cors-anywhere": "^0.4.1",
+    "express": "^4.16.3",
+    "nodemon": "^1.18.2"
   }
 }

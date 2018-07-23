@@ -12,24 +12,7 @@ class GetMachines extends Component{
     }
 
     componentDidMount(){
-        var location = new Headers({
-            'Location': '16'
-        });
-
-        fetch(
-            'http://cors-anywhere.herokuapp.com/mobile.wgls.laundryrestart.com/api/checkout/start-session',{
-                headers: {'Location': '16'}
-            }
-        ).then(
-            response => {
-                console.log(response)
-                console.log(typeof(response))
-            }
-        ).then(
-            whoopy => {
-                console.log(whoopy)
-            }
-        ).catch(err => console.log('There was an error:' + err))
+        
     }
 
     render() {return this.state.data}

@@ -3,15 +3,11 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const port = process.env.PORT || 5000;
-const loc = 16
+const loc = 16;
 
 // API calls
 app.get('/api', (req, res) => {  
-    let wat = req.hostname
-    let wat2 = req.body
-    let wat3 = req.headers
-    let wat4 = req.rawHeaders
-    res.send('<h1> yowwwwwwwwwwwwwwwwwwwwwwwwww api hier </h1>');
+    res.send('<h1> Niks te zien gap </h1>');
 });
 app.get('/api/start-session', (req, res) => {  
     let url = 'http://mobile.wgls.laundryrestart.com/api/checkout/start-session'
@@ -57,18 +53,5 @@ app.get('/*', function(req, res) {
         else console.log('Requested', reqfile)
     });
 });
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
-
-
-//---------------------// 
-//----api functions----//
-//---------------------// 
-function startSession(){
-    let url = 'http://mobile.wgls.laundryrestart.com/api/checkout/start-session'
-    fetch(url).then(function(response) {
-        response.text().then(function(text) {
-            console.log(text);
-            return text
-        });
-    });
-}

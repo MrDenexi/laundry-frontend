@@ -15,6 +15,7 @@ app.get('/api/start-session', (req, res) => {
     fetch(url,{headers: headers}).then(function(response) {
         response.text().then(function(text) {
             console.log(text);
+            res.setHeader('content-type', 'application/json');
             res.send(text);
         });
     });
@@ -25,6 +26,7 @@ app.get('/api/machines', (req, res) => {
     fetch(url,{headers: headers}).then(function(response) {
         response.text().then(function(text) {
             console.log(text);
+            res.setHeader('content-type', 'application/json');
             res.send(text);
         });
     });
@@ -36,6 +38,7 @@ app.get('/api/bookings', (req, res) => {
     fetch(url,{headers: headers}).then(function(response) {
         response.text().then(function(text) {
             console.log(text);
+            res.setHeader('content-type', 'application/json');
             res.send(text);
         });
     });

@@ -11,44 +11,55 @@ class MachinesList extends Component{
     }
 
     componentDidMount(){
-        fetch('/api/start-session')
+        fetch('http://localhost:5000/api/start-session')
         .then(response => response.json())
         .then(data => {
-            if (data.success == true){
+            if (data.success === true){
                 console.log(data.sessionId);
                 let headers = {Session: data.sessionId}
-                fetch('/api/machines',{headers: headers})
-                .then(response => response.json())
-                .then(data => {
-                    //console.log(data);
-                    this.setState(data)
-                })
+                return fetch('http://localhost:5000/api/machines',{headers: headers})
             }
             else {
                 console.log('success is false');
             }
         })
+        .then(response => response.json())
+        .then(data => {
+            //console.log(data);
+            this.setState({
+                list: data
+            });
+            //console.log(this.state);
+        })
     }
 
     render(){
-        const { list } = this.state;
+        let list = this.state.list;
+        console.log('YOEHOOEEE', list);
         return(
-            <div> {list} </div> //this shit is all broken. fetching is slower than redering maybe? 
+            <MachinesListRenderer list={list} /> 
         );
     }
 }
 class MachinesListRenderer extends Component{
     render(){
-        return(
-            this.props.list.map(function(machine){
-                return (
+        let list = this.props.list;
+        console.log('wajooo', list);
+        let machines = list.map(
+            m => {
+                return(
                     <div className="col">
-                        <h1>{machine._name}</h1>
-                        <h2>{machine.statusName}</h2>
-                        <h3>{machine.secLeft}</h3>
+                        <h1>{m.name}</h1>
+                        <h2>{m.statusName}</h2>
+                        <h3>{m.secLeft}</h3>
                     </div>
-                );
-            })
+                )
+            } 
+        )
+        console.log(machines);
+        //let machines = this.props.list;
+        return(
+            machines
         )
     }
 }
@@ -64,6 +75,15 @@ class Machine extends Component{
             bookings: null
         }
     }
+    render(){
+        return(
+            <div>
+                <h1>{this.state._name}</h1>
+                <h2>{this.state.statusName}</h2>
+                <h3>{this.state.secLeft}</h3>
+            </div>
+        );
+    }
 }
 
 class Calendar extends Component{
@@ -73,15 +93,14 @@ class Day extends Component{
 }
 
 class Main extends Component {
-  render() {
-    return (
-        <div className="flex-grid">
-            <div className="col"> <MachinesList /> </div>
-            <div className="col"><Lorem /></div>
-            <div className="col"><Lorem /></div>
-        </div>
-    );
-  }
+    // <div className="col"> <MachinesListRenderer list={<MachinesList />} /> </div>
+    render() {
+        return (
+            <div className="flex-grid">
+                <MachinesList />
+            </div>
+        );
+    }
 }
 
 export default Main;

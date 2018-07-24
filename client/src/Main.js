@@ -6,12 +6,11 @@ class MachinesList extends Component{
     constructor(){
         super()
         this.state = {
-            session: null,
             list: []
         }
     }
 
-    componentWillMount(){
+    componentDidMount(){
         fetch('/api/start-session')
         .then(response => response.json())
         .then(data => {
@@ -22,7 +21,7 @@ class MachinesList extends Component{
                 .then(response => response.json())
                 .then(data => {
                     //console.log(data);
-                    this.setState({list: data})
+                    this.setState(data)
                 })
             }
             else {
@@ -31,9 +30,12 @@ class MachinesList extends Component{
         })
     }
 
-    render() {return(
-        <div> {this.state.list} </div> //this shit is all broken. fetching is slower than redering maybe? 
-    )}
+    render(){
+        const { list } = this.state;
+        return(
+            <div> {list} </div> //this shit is all broken. fetching is slower than redering maybe? 
+        );
+    }
 }
 class MachinesListRenderer extends Component{
     render(){

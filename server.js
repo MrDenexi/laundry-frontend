@@ -36,15 +36,15 @@ app.get('/api/machines', (req, res) => {
             res.setHeader('content-type', 'application/json');
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-            res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, Session');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, Session, Datefrom, Dateto');
             res.send(text);
         });
     });
 });
 app.get('/api/bookings', (req, res) => {  
     let url = 'http://mobile.wgls.laundryrestart.com/api/checkout/extended-bookings-for-location?' +
-                'locationId='+loc+'&dateFrom='+req.get('dateFrom')+'&dateTo='+req.get('dateFrom');
-    let headers = {Location: loc, Session: req.headers.Session}
+                'locationId='+loc+'&dateFrom='+req.get('Datefrom');//+'&dateTo='+req.get('dateFrom');
+    let headers = {Location: loc}
     fetch(url,{headers: headers}).then(function(response) {
         response.text().then(function(text) {
             console.log('returned', text);

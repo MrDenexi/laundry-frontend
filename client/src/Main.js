@@ -33,7 +33,7 @@ class LaundryInfo extends Component{
     renderDatePick(i){
         return(
             <DatePick 
-                value={this.state.datePickDates[i]} 
+                value={this.dates[i]} 
                 selected={i == this.state.datePickSelected ? true : false} 
                 onClick={() => this.setState({datePickSelected: i})} 
             />

@@ -16,7 +16,8 @@ class LaundryInfo extends Component{
             this.nowPlusDays(2), 
             this.nowPlusDays(3), 
             this.nowPlusDays(4), 
-            this.nowPlusDays(5)
+            this.nowPlusDays(5),
+            this.nowPlusDays(6)
         ]
         
         this.state = {
@@ -34,19 +35,17 @@ class LaundryInfo extends Component{
         return(
             <DatePick 
                 value={this.dates[i]} 
-                selected={i == this.state.datePickSelected ? true : false} 
+                selected={i === this.state.datePickSelected ? true : false} 
                 onClick={() => this.setState({datePickSelected: i})} 
             />
         )
     }
 
     render(){
-        let list = this.state.list;
-        let bookings = this.state.bookings;
         return(
             <div>
                 <div className="flex-grid">
-                    <MachinesRenderer/> 
+                    <MachinesRenderer/>
                 </div>
                 <div className="flex-grid">
                     {this.renderDatePick(0)}
@@ -58,7 +57,7 @@ class LaundryInfo extends Component{
                     {this.renderDatePick(6)}
                 </div>
                 <div className="flex-grid">
-                    <BookingsRenderer value={this.dates[this.datePickSelected]} /> 
+                    {/*<BookingsRenderer value={this.dates[this.datePickSelected]} />*/}
                 </div>
             </div>
         );
@@ -126,16 +125,26 @@ class Machine extends Component{
 }
 
 class DatePick extends Component{
+    constructor(props){
+        super(props)
+    }
     render(){
+        let days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+        let day = days[this.props.value.getDay()];
+        let date = this.props.value.getDate();
+
+        let className = this.props.selected ? 'datepick selected' : 'datepick';
+
         return(
-            <div>
-                <h3> Date? {this.props.value} </h3>
-                <h3> Selected? {this.props.selected} </h3>
+            <div className={className} onClick={this.props.onClick} >
+                <div className='day'> {day} </div>
+                <div className='date'> {date} </div>
             </div>
         );
     }
 }
 
+/*
 class BookingsRenderer extends Component{
     constructor(){
         super()
@@ -160,10 +169,10 @@ class BookingsRenderer extends Component{
 
     render(){
         return(
-            'bookings and shit, not done you'
+            'bookings and shit, not done yo'
         )
     }
-}
+}*/
 
 class Main extends Component {
     // <div className="col"> <MachinesListRenderer list={<MachinesList />} /> </div>

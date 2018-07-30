@@ -22,16 +22,19 @@ class LaundryInfo extends Component{
         ]
         
         this.state = {
-            datePickSelected: 0
+            datePickSelected: 0,
+            bookings: [], //raw json from bookings fetch
+            machineIds: [], //machine ids from bookingsfetch
+            groupedBookings: [] //array of array of objects, grouped by machineId.
         }
     }
     
+    //Datepick stuff
     nowPlusDays(i){
         let d = new Date(); 
         d.setDate(d.getDate() + i)
         return d
     }
-
     renderDatePick(i){
         return(
             <DatePick 
@@ -148,13 +151,27 @@ class BookingsRenderer extends Component{
     constructor(props){
         super(props)
         this.state = {
-            bookings: [], //raw json from fetch
-            machineIds: [], //machine ids from fetch
+            bookings: [], //raw json from bookings fetch
+            machineIds: [], //machine ids from bookingsfetch
             groupedBookings: [] //array of array of objects, grouped by machineId.
         }
     }
     componentDidMount(){
         //getting machine status
+        this.fetchBookings();
+    }
+    componentDidUpdate(nextProps){
+        if (nextProps.value != this.props.value){
+            this.setState({
+                bookings: [], //raw json from bookings fetch
+                machineIds: [], //machine ids from bookingsfetch
+                groupedBookings: [] //array of array of objects, grouped by machineId.
+            })
+            this.fetchBookings();
+        }
+    }
+
+    fetchBookings(){
         let dateFrom = this.props.value.toISOString().split("T")[0];
         let headers = {DateFrom: dateFrom}
         fetch(fetchBookings,{headers: headers})
@@ -198,17 +215,23 @@ class BookingsRenderer extends Component{
         )
     }
     addBookingToGroup(booking, index){
-        this.setState( (prevState) => {
-            groupedBookings: prevState.groupedBookings[index].push(booking);
+        let newGroupedBookings = this.state.groupedBookings;
+        newGroupedBookings[index].push(booking);
+        this.setState({
+            groupedBookings: newGroupedBookings
         });
     }
 
     render(){
+        let restime;
+        if (this.state.groupedBookings.length > 1) restime = this.state.groupedBookings[0][0].reservationTime;
         return(
             <div>
                 {this.props.value.toISOString().split("T")[0]}
                 <br/>
                 {this.state.groupedBookings.length}
+                <br/>
+                {restime}
             </div>
         )
     }

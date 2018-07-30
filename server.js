@@ -9,8 +9,8 @@ const loc = 16;
 app.options("/*", function(req, res, next){ //CORS is strange again. handle OPTIONS request.
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, Session');
-    res.send(200);
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, Session, Datefrom');
+    res.sendStatus(200).send();
 });
 app.get('/api', (req, res) => {  
     res.send('<h1> Niks te zien gap </h1>');

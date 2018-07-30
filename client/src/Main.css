@@ -1,15 +1,31 @@
+body{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+
 .flex-grid {
     display: flex;
     justify-content: center;
     background-color: whitesmoke;
-  }
+}
   
 .col {
-    background-color: salmon;
+    border: solid 1px;
+    border-color: salmon;
+    border-radius: 5px;
     width: 20%;
-    margin: 10px;
-    padding: 20px;
+    margin: 2px;
+    padding: 5px;
     min-width: 100px;
+    max-width: 200px;
+    color: darkgray;
+    text-align: center;
+}
+
+img {
+    opacity: 0.3;
+    width: 100%;
+    height: auto;
 }
 
 /* Datepick */
@@ -23,7 +39,7 @@
 }
 
 .datepick.selected{
-    color: rgb(83, 83, 83);
+    color: salmon;
 }
 
 .date{

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Main.css';
+import icon from './machine.png';
 
 const fetchDomain = 'http://localhost:5000'
 const fetchSession = fetchDomain + '/api/start-session'
@@ -45,7 +46,7 @@ class LaundryInfo extends Component{
         return(
             <div>
                 <div className="flex-grid">
-                    <MachinesRenderer/>
+                    {/*<MachinesRenderer/>*/}
                 </div>
                 <div className="flex-grid">
                     {this.renderDatePick(0)}
@@ -57,7 +58,7 @@ class LaundryInfo extends Component{
                     {this.renderDatePick(6)}
                 </div>
                 <div className="flex-grid">
-                    {/*<BookingsRenderer value={this.dates[this.datePickSelected]} />*/}
+                    <BookingsRenderer value={this.dates[this.state.datePickSelected]} />
                 </div>
             </div>
         );
@@ -68,7 +69,7 @@ class MachinesRenderer extends Component{
     constructor(){
         super()
         this.state = {
-            list: [], //machine status
+            list: [], //all raw json from fetch
         }
     }
     componentDidMount(){
@@ -117,17 +118,15 @@ class Machine extends Component{
         return(
             <div>
                 <h1>{this.props.name}</h1>
-                <h2>{this.props.statusName}</h2>
-                <h3>{this.props.secLeft}</h3>
+                <img src={icon} alt='' />
+                <h3>{this.props.statusName}</h3>
+                <h3>Estimated time left: <br/> {this.props.secLeft}</h3>
             </div>
         );
     }
 }
 
 class DatePick extends Component{
-    constructor(props){
-        super(props)
-    }
     render(){
         let days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
         let day = days[this.props.value.getDay()];
@@ -144,38 +143,78 @@ class DatePick extends Component{
     }
 }
 
-/*
+
 class BookingsRenderer extends Component{
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
-            list: [], //machine status
+            bookings: [], //raw json from fetch
+            machineIds: [], //machine ids from fetch
+            groupedBookings: [] //array of array of objects, grouped by machineId.
         }
     }
     componentDidMount(){
         //getting machine status
-        let dateTo = new Date();
-        dateTo.setDate(dateTo.getDate() + 7);
-        let dateHeaders = {Datefrom: '2018-07-24', Dateto: '2018-07-27' }
-        fetch(fetchBookings+'?dateFrom=2018-07-24')
+        let dateFrom = this.props.value.toISOString().split("T")[0];
+        let headers = {DateFrom: dateFrom}
+        fetch(fetchBookings,{headers: headers})
         .then(response => response.json())
         .then(data => {
             this.setState({
                 bookings: data
             });
+            this.groupBookings();
         })
         .catch((error) => console.log(error));
     }
 
-    render(){
-        return(
-            'bookings and shit, not done yo'
+    groupBookings(){
+        this.state.bookings.forEach(
+            (booking) => {
+                console.log('booking; ', booking);
+                let machineIds = this.state.machineIds;
+                let idIndex = machineIds.indexOf(booking.machineId);
+                let groupedBookings = this.state.groupedBookings;
+                console.log('groupedbooking; ', groupedBookings);
+                if (idIndex === -1) {              
+                    let machineIds_ = machineIds;
+                    machineIds_.push(booking.machineId);
+                    let groupedBookings_ = groupedBookings;
+                    console.log('___', groupedBookings_);
+                    groupedBookings_.push([]);
+                    this.setState({
+                        machineIds: machineIds_,
+                        groupedBookings: groupedBookings_
+                    }, () => {
+                        console.log('just setstate');
+                        idIndex = machineIds.indexOf(booking.machineId);
+                        this.addBookingToGroup(booking, idIndex);
+                    });
+                }
+                else{
+                    this.addBookingToGroup(booking, idIndex);
+                }
+            }
         )
     }
-}*/
+    addBookingToGroup(booking, index){
+        this.setState( (prevState) => {
+            groupedBookings: prevState.groupedBookings[index].push(booking);
+        });
+    }
+
+    render(){
+        return(
+            <div>
+                {this.props.value.toISOString().split("T")[0]}
+                <br/>
+                {this.state.groupedBookings.length}
+            </div>
+        )
+    }
+}
 
 class Main extends Component {
-    // <div className="col"> <MachinesListRenderer list={<MachinesList />} /> </div>
     render() {
         return (
             <LaundryInfo />

@@ -49,7 +49,7 @@ class LaundryInfo extends Component{
         return(
             <div>
                 <div className="flex-grid">
-                    {/*<MachinesRenderer/>*/}
+                    <MachinesRenderer/>
                 </div>
                 <div className="flex-grid">
                     {this.renderDatePick(0)}
@@ -156,12 +156,12 @@ class BookingsRenderer extends Component{
             groupedBookings: [] //array of array of objects, grouped by machineId.
         }
     }
+    
     componentDidMount(){
-        //getting machine status
-        this.fetchBookings();
+        this.fetchBookings(); //getting machine status
     }
     componentDidUpdate(nextProps){
-        if (nextProps.value != this.props.value){
+        if (nextProps.value !== this.props.value){
             this.setState({
                 bookings: [], //raw json from bookings fetch
                 machineIds: [], //machine ids from bookingsfetch
@@ -188,22 +188,18 @@ class BookingsRenderer extends Component{
     groupBookings(){
         this.state.bookings.forEach(
             (booking) => {
-                console.log('booking; ', booking);
                 let machineIds = this.state.machineIds;
                 let idIndex = machineIds.indexOf(booking.machineId);
                 let groupedBookings = this.state.groupedBookings;
-                console.log('groupedbooking; ', groupedBookings);
                 if (idIndex === -1) {              
                     let machineIds_ = machineIds;
                     machineIds_.push(booking.machineId);
                     let groupedBookings_ = groupedBookings;
-                    console.log('___', groupedBookings_);
                     groupedBookings_.push([]);
                     this.setState({
                         machineIds: machineIds_,
                         groupedBookings: groupedBookings_
                     }, () => {
-                        console.log('just setstate');
                         idIndex = machineIds.indexOf(booking.machineId);
                         this.addBookingToGroup(booking, idIndex);
                     });
@@ -223,16 +219,22 @@ class BookingsRenderer extends Component{
     }
 
     render(){
-        let restime;
-        if (this.state.groupedBookings.length > 1) restime = this.state.groupedBookings[0][0].reservationTime;
         return(
-            <div>
-                {this.props.value.toISOString().split("T")[0]}
-                <br/>
-                {this.state.groupedBookings.length}
-                <br/>
-                {restime}
-            </div>
+            this.state.groupedBookings.map(
+                (m) => {
+                    return(
+                        <div className="col">
+                            {m.map(
+                                (b) => {
+                                    return(
+                                        <div> {b.reservationTime} </div>
+                                    )
+                                }
+                            )} 
+                        </div>
+                    )
+                } 
+            )
         )
     }
 }

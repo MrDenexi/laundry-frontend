@@ -9,7 +9,7 @@ const loc = 16;
 app.options("/*", function(req, res, next){ //CORS is strange again. handle OPTIONS request.
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, Session, Datefrom');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, Session, Datefrom, Dateto');
     res.sendStatus(200).send();
 });
 app.get('/api', (req, res) => {  
@@ -43,8 +43,8 @@ app.get('/api/machines', (req, res) => {
 });
 app.get('/api/bookings', (req, res) => {  
     let url = 'http://mobile.wgls.laundryrestart.com/api/checkout/extended-bookings-for-location?' +
-                'locationId='+loc+'&dateFrom='+req.get('Datefrom');//+'&dateTo='+req.get('dateFrom');
-    let headers = {Location: loc}
+                'locationId='+loc+'&dateFrom='+req.get('Datefrom')+'&dateTo='+req.get('Dateto');
+    let headers = {Location: loc, Datefrom: req.get('Datefrom'), Dateto: req.get('Dateto')}
     fetch(url,{headers: headers}).then(function(response) {
         response.text().then(function(text) {
             console.log('returned', text);

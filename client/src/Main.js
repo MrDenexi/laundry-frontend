@@ -18,7 +18,8 @@ class LaundryInfo extends Component{
             this.nowPlusDays(3), 
             this.nowPlusDays(4), 
             this.nowPlusDays(5),
-            this.nowPlusDays(6)
+            this.nowPlusDays(6),
+            this.nowPlusDays(7)
         ]
         
         this.state = {
@@ -61,7 +62,7 @@ class LaundryInfo extends Component{
                     {this.renderDatePick(6)}
                 </div>
                 <div className="flex-grid">
-                    <BookingsRenderer value={this.dates[this.state.datePickSelected]} />
+                    <BookingsRenderer value={this.dates[this.state.datePickSelected]} dateTo={this.dates[7]} />
                 </div>
             </div>
         );
@@ -173,7 +174,8 @@ class BookingsRenderer extends Component{
 
     fetchBookings(){
         let dateFrom = this.props.value.toISOString().split("T")[0];
-        let headers = {DateFrom: dateFrom}
+        let dateTo = this.props.dateTo.toISOString().split("T")[0];
+        let headers = {DateFrom: dateFrom, DateTo: dateTo}
         fetch(fetchBookings,{headers: headers})
         .then(response => response.json())
         .then(data => {
@@ -218,24 +220,57 @@ class BookingsRenderer extends Component{
         });
     }
 
-    render(){
+    hourText(){
+        let hours = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
         return(
-            this.state.groupedBookings.map(
-                (m) => {
+            hours.map(
+                (hour) =>{ 
                     return(
-                        <div className="col">
-                            {m.map(
-                                (b) => {
-                                    return(
-                                        <div> {b.reservationTime} </div>
-                                    )
-                                }
-                            )} 
+                        <div className='hourtext'> 
+                            <div className='text-hourtext'> {hour} </div>
                         </div>
                     )
-                } 
+                }
             )
         )
+    }
+
+    render(){
+        return(
+            <div>
+                <div className="col-hourtext">
+                    {this.hourText()}
+                </div>
+                <div className="flex-grid">
+                    {this.state.groupedBookings.map(
+                        (m) => {
+                            return(
+                                <div className="col bookings">
+                                    {m.map(
+                                        (b) => {
+                                            return(
+                                                <HourBlock time={b.reservationTime} hasBooking={b.hasBooking} />
+                                            )
+                                        }
+                                    )} 
+                                </div>
+                            )
+                        } 
+                    )}
+                </div>
+            </div>
+        )
+    }
+}
+
+class HourBlock extends Component {
+    render(){
+        if(this.props.hasBooking) {
+            return( <div className='hour reserved'/>) 
+        }
+        else{
+            return( <div className='hour'/>)
+        }
     }
 }
 

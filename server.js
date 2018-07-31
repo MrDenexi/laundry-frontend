@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 const express = require('express');
 const path = require('path');
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8001;
 const loc = 16;
 
 // API calls

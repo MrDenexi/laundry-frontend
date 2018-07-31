@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './Main.css';
 import icon from './machine.png';
 
-const fetchDomain = 'http://localhost:5000'
+//const fetchDomain = 'http://localhost:8001'
+const fetchDomain = window.location.hostname;
 const fetchSession = fetchDomain + '/api/start-session'
 const fetchMachines = fetchDomain + '/api/machines'
 const fetchBookings = fetchDomain + '/api/bookings'

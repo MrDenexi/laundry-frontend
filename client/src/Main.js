@@ -125,7 +125,7 @@ class Machine extends Component{
                 <h1>{this.props.name}</h1>
                 <img src={icon} alt='' />
                 <h3>{this.props.statusName}</h3>
-                <h3>Estimated time left: <br/> {this.props.secLeft}</h3>
+                <h3>Estimated time left: <br/> {Math.round(this.props.secLeft / 60)}m</h3>
             </div>
         );
     }

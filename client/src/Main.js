@@ -4,9 +4,9 @@ import icon from './machine.png';
 
 //const fetchDomain = 'http://localhost:8001'
 const fetchDomain = window.location.href;
-const fetchSession = fetchDomain + '/api/start-session'
-const fetchMachines = fetchDomain + '/api/machines'
-const fetchBookings = fetchDomain + '/api/bookings'
+const fetchSession = fetchDomain + 'api/start-session'
+const fetchMachines = fetchDomain + 'api/machines'
+const fetchBookings = fetchDomain + 'api/bookings'
 
 class LaundryInfo extends Component{
     constructor(){

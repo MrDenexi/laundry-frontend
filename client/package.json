@@ -1,7 +1,6 @@
 {
   "name": "laundry-frontend-react",
   "version": "0.1.0",
-  "homepage": ".",
   "private": true,
   "dependencies": {
     "fetch-jsonp": "^1.1.3",

@@ -3,7 +3,7 @@ import './Main.css';
 import icon from './machine.png';
 
 //const fetchDomain = 'http://localhost:8001'
-const fetchDomain = '';
+const fetchDomain = window.location.href;
 const fetchSession = fetchDomain + '/api/start-session'
 const fetchMachines = fetchDomain + '/api/machines'
 const fetchBookings = fetchDomain + '/api/bookings'

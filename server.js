@@ -56,7 +56,10 @@ app.get('/api/bookings', (req, res) => {
 });
 
 // Handle React routing, return all requests to React app
+app.use(express.static('client/build/'))
 app.get('/*', function(req, res) {
+    res.sendFile('index.html');
+    /*
     let reqfile = req.path;
     if (reqfile == '/') reqfile = '/index.html'
     res.sendFile(path.join(__dirname, 'client/build', reqfile), '', function(err){
@@ -66,6 +69,7 @@ app.get('/*', function(req, res) {
         }
         else console.log('Requested', reqfile)
     });
+    */
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
